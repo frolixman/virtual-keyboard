@@ -28,6 +28,8 @@ mainContainer.append(textArea);
 textArea.style.width = "100%"
 textArea.style.height = "38%"
 textArea.style.boxSizing = "border-box";
+textArea.style.fontSize = "30px"
+textArea.placeholder = "Не успеваю доделать работу(( Буду благодарен, если сможете глянуть на нее в финальный день кроссчека! Зарнее спасибо!"
 
 
 
