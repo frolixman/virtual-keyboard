@@ -16,14 +16,22 @@ main.append(mainContainer);
 mainContainer.style.display = "flex";
 mainContainer.style.flexDirection = "column";
 mainContainer.style.justifyContent = "space-between";
-mainContainer.style.width = "1000px";
+mainContainer.style.maxWidth = "890px";
 mainContainer.style.height = "700px";
 
 
 
 const textArea = document.createElement("textarea");                  //text area
 textArea.className = "textarea";
+textArea.id = "textArea"
 mainContainer.append(textArea);
+textArea.focus();
+textArea.onblur = function() {
+  if (true) { 
+    console.log('blur');
+    textArea.focus();
+  }
+}
 
 textArea.style.width = "100%"
 textArea.style.height = "38%"
@@ -40,9 +48,8 @@ mainContainer.append(virtualKeyboardContainer);
 virtualKeyboardContainer.style.display = "flex";
 virtualKeyboardContainer.style.flexWrap = "wrap";
 virtualKeyboardContainer.style.justifyContent = "space-between";
-virtualKeyboardContainer.style.rowGap = "10px";
-virtualKeyboardContainer.style.columnGap = "10px";
-virtualKeyboardContainer.style.justifyContent = "space-between";
+virtualKeyboardContainer.style.rowGap = "5px";
+// virtualKeyboardContainer.style.columnGap = "10px";
 // virtualKeyboardContainer.style.width = "1030px";
 // virtualKeyboardContainer.style.height = "360px";
 virtualKeyboardContainer.style.padding = "10px";
@@ -56,21 +63,21 @@ const keyboardArr = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-',
                     'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 'Delete', 
                     'CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", '\\', 'Enter',
                     'Shift', '\\', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'ArrowUp', 'Shift', 
-                    'Control', 'Meta', 'Alt', 'Space', 'Alt', 'Control', 'ArrowLeft', 'ArrowRight', 'ArrowDown'];
+                    'Control', 'Meta', 'Alt', 'Space', 'Alt', 'Control', 'ArrowLeft', 'ArrowDown', 'ArrowRight'];
 
-// const keyboardCodedArr = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace', 
-//                     'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Enter', 
-//                     'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Backslash', 
-//                     'ShiftLeft', 'IntlBackslash', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ShiftRight', 
-//                     'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ControlRight', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+const keyboardCodedArr = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace', 
+                    'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Delete', 
+                    'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Backslash', 'Enter',
+                    'ShiftLeft', 'IntlBackslash', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight', 
+                    'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ControlRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight'];
 
 
 
-document.onkeydown = function(event) {
-  console.log(event);
-  // keyboardArr.push(event.key)
-  // console.log(keyboardArr)
-}
+// document.onkeydown = function(event) {
+//   console.log(event);
+//   // keyboardArr.push(event.key)
+//   // console.log(keyboardArr)
+// }
 
 function initKeyboard() {
 
@@ -92,7 +99,6 @@ function initKeyboard() {
     keyboardBtn.style.display = "flex";
     keyboardBtn.style.justifyContent = "center";
     keyboardBtn.style.alignItems = "center";
-    // keyboardBtn.style.margin = "10px";
     keyboardBtn.style.padding = "10px";
     keyboardBtn.style.minWidth = "50px";
     keyboardBtn.style.height = "50px";
@@ -100,6 +106,7 @@ function initKeyboard() {
     keyboardBtn.style.fontSize = "20px"
     keyboardBtn.style.border = "2px solid black";
     keyboardBtn.style.cursor = "pointer";
+    keyboardBtn.setAttribute('code', keyboardCodedArr[i]);
 
     if(i === 54) {keyboardBtn.innerText = "▲";};                                  //стрелки клавиатуры
     if(i === 62) {keyboardBtn.innerText = "◀";};      
@@ -108,9 +115,9 @@ function initKeyboard() {
 
     if(i === 56 || i === 61) {keyboardBtn.innerText = "Ctrl";};                    //кнопка CTRL
     if(i === 57) {keyboardBtn.innerText = "Win"};                                  //кнопка Win
-    if(i === 59) {keyboardBtn.style.width = "394px"};                              //кнопка Space
+    if(i === 59) {keyboardBtn.style.width = "280px"};                              //кнопка Space
 
-    keyboardBtn.addEventListener("mouseover", function() {
+    keyboardBtn.addEventListener("mouseover", function() {        //эффект от наведения мыши
       keyboardBtn.style.backgroundColor = "#a1a3a2";
     })
     keyboardBtn.addEventListener("mouseout", function() {
@@ -122,3 +129,17 @@ function initKeyboard() {
 }
 
 initKeyboard();
+
+document.onkeydown =  function(event) {
+  const targetBtn = document.querySelector('.keyboard-btn[code = "' + event.code + '"]');
+  targetBtn.style.borderRadius = "45px";
+  targetBtn.style.backgroundColor = "#2e2e2e";
+  targetBtn.style.transition = "0.15s";
+}
+document.onkeyup =  function(event) {
+  const targetBtn = document.querySelector('.keyboard-btn[code = "' + event.code + '"]');
+  targetBtn.style.borderRadius = "0px";
+  targetBtn.style.backgroundColor = "#4e4e4e";
+}
+
+
