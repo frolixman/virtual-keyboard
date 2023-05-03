@@ -132,7 +132,7 @@ function initKeyboard() {
 
 initKeyboard();
 
-document.onkeydown =  function(event) {
+document.onkeydown = function(event) {
   const targetBtn = document.querySelector(`.keyboard-btn[code = ${event.code}]`);              //('.keyboard-btn[code = "' + event.code + '"]');
   targetBtn.style.borderRadius = "45px";
   targetBtn.style.backgroundColor = "#2e2e2e";
@@ -142,6 +142,19 @@ document.onkeyup =  function(event) {
   const targetBtn = document.querySelector(`.keyboard-btn[code = ${event.code}]`);              //('.keyboard-btn[code = "' + event.code + '"]');
   targetBtn.style.borderRadius = "0px";
   targetBtn.style.backgroundColor = "#4e4e4e";
+}
+document.onmousedown = function(event) {
+  const targetBtn = document.querySelector(`.keyboard-btn[code = ${event.target.getAttribute('code')}]`);
+  console.log(targetBtn)
+  targetBtn.style.borderRadius = "45px";
+  targetBtn.style.backgroundColor = "#2e2e2e";
+  targetBtn.style.transition = "0.15s";
+}
+document.onmouseup = function(event) {
+  const targetBtn = document.querySelector(`.keyboard-btn[code = ${event.target.getAttribute('code')}]`);
+  console.log(targetBtn)
+  targetBtn.style.borderRadius = "0";
+  targetBtn.style.backgroundColor = "#a1a3a2";
 }
 
 // keyboardBtn.addEventListener("click", function(event) {
@@ -176,7 +189,7 @@ virtualKeyboardContainer.addEventListener("click", function(event) {
                                                 && event.target.getAttribute('code') !== "Delete"
                                                 && event.target.getAttribute('code') !== "Backspace") {
     // console.log('textArea.value: ' + textArea.value);
-    console.log('event.target: ' + event.target.getAttribute('code'));
+    // console.log('event.target: ' + event.target.getAttribute('code'));
     let str = textArea.value;
     str += event.target.innerText;
     // console.log('str: ' + str)
