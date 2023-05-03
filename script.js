@@ -28,7 +28,6 @@ mainContainer.append(textArea);
 textArea.focus();
 textArea.onblur = function() {
   if (true) { 
-    console.log('blur');
     textArea.focus();
   }
 }
@@ -79,6 +78,8 @@ const keyboardCodedArr = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', '
 //   // console.log(keyboardArr)
 // }
 
+let key = '';
+
 function initKeyboard() {
 
   for(i = 0; i < keyboardArr.length; i++){
@@ -123,6 +124,7 @@ function initKeyboard() {
     keyboardBtn.addEventListener("mouseout", function() {
       keyboardBtn.style.backgroundColor = "";
     })
+    
    
   }
 
@@ -131,15 +133,60 @@ function initKeyboard() {
 initKeyboard();
 
 document.onkeydown =  function(event) {
-  const targetBtn = document.querySelector('.keyboard-btn[code = "' + event.code + '"]');
+  const targetBtn = document.querySelector(`.keyboard-btn[code = ${event.code}]`);              //('.keyboard-btn[code = "' + event.code + '"]');
   targetBtn.style.borderRadius = "45px";
   targetBtn.style.backgroundColor = "#2e2e2e";
   targetBtn.style.transition = "0.15s";
 }
 document.onkeyup =  function(event) {
-  const targetBtn = document.querySelector('.keyboard-btn[code = "' + event.code + '"]');
+  const targetBtn = document.querySelector(`.keyboard-btn[code = ${event.code}]`);              //('.keyboard-btn[code = "' + event.code + '"]');
   targetBtn.style.borderRadius = "0px";
   targetBtn.style.backgroundColor = "#4e4e4e";
 }
+
+// keyboardBtn.addEventListener("click", function(event) {
+//   console.log(event)
+// })
+
+// virtualKeyboardContainer.onclick = function(event) {
+//   if(event.target.className === "keyboard-btn") {
+//     console.log(event.target.innerText);
+//     let str = textArea.innerText;
+//     console.log('textArea - ' + str);
+//     str += event.target.innerText;
+//     textArea.innerText = str;
+//     console.log(textArea.innerText);
+    
+//   }
+
+// }
+virtualKeyboardContainer.addEventListener("click", function(event) {          
+  if(event.target.className === "keyboard-btn" && event.target.getAttribute('code') !== "Backspace" 
+                                                && event.target.getAttribute('code') !== "Tab"
+                                                && event.target.getAttribute('code') !== "CapsLock" 
+                                                && event.target.getAttribute('code') !== "ShiftLeft" 
+                                                && event.target.getAttribute('code') !== "ControlLeft" 
+                                                && event.target.getAttribute('code') !== "MetaLeft"
+                                                && event.target.getAttribute('code') !== "AltLeft"
+                                                && event.target.getAttribute('code') !== "Space"
+                                                && event.target.getAttribute('code') !== "AltRight"
+                                                && event.target.getAttribute('code') !== "ControlRight"
+                                                && event.target.getAttribute('code') !== "ShiftRight"
+                                                && event.target.getAttribute('code') !== "Enter"
+                                                && event.target.getAttribute('code') !== "Delete"
+                                                && event.target.getAttribute('code') !== "Backspace") {
+    // console.log('textArea.value: ' + textArea.value);
+    console.log('event.target: ' + event.target.getAttribute('code'));
+    let str = textArea.value;
+    str += event.target.innerText;
+    // console.log('str: ' + str)
+    textArea.value = str;
+    // console.log("new textArea.value: " + textArea.value);
+    // console.log('---------------');
+    
+    
+  }
+
+})
 
 
