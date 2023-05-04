@@ -2,7 +2,7 @@
 // eslint-disable-next-line import/extensions
 import { keyboardArr, keyboardCodedArr } from './assets/keyboard-container.js';
 
-const main = document.createElement('main'); // main
+const main = document.createElement('main');                                                      // main
 main.className = 'main';
 document.body.append(main);
 
@@ -11,7 +11,10 @@ main.style.display = 'flex';
 main.style.justifyContent = 'center';
 main.style.alignItems = 'center';
 
-const mainContainer = document.createElement('div'); // main container
+
+
+
+const mainContainer = document.createElement('div');                                             // main container
 mainContainer.className = 'main-container';
 main.append(mainContainer);
 
@@ -21,7 +24,10 @@ mainContainer.style.justifyContent = 'space-between';
 mainContainer.style.maxWidth = '890px';
 mainContainer.style.height = '700px';
 
-const textArea = document.createElement('textarea'); // text area
+
+
+
+const textArea = document.createElement('textarea');                                             // text area
 textArea.className = 'textarea';
 textArea.id = 'textareaID';
 mainContainer.append(textArea);
@@ -45,7 +51,10 @@ textArea.style.boxSizing = 'border-box';
 textArea.style.fontSize = '30px';
 textArea.placeholder = 'Не успеваю доделать работу(( Буду благодарен, если сможете глянуть на нее в финальный день кроссчека! Зарнее спасибо!';
 
-const virtualKeyboardContainer = document.createElement('div'); // keyboard container
+
+
+
+const virtualKeyboardContainer = document.createElement('div');                                  // keyboard container
 virtualKeyboardContainer.className = 'virtual-keyboard-container';
 mainContainer.append(virtualKeyboardContainer);
 
@@ -58,10 +67,13 @@ virtualKeyboardContainer.style.boxSizing = 'border-box';
 virtualKeyboardContainer.style.border = '1px solid black';
 virtualKeyboardContainer.style.backgroundColor = '#4e4e4e';
 
+
+
+let keyboardCase = 'lowercase';
 function initKeyboard() {
   for (let i = 0; i < keyboardArr.length; i++) {
     if (i === 14 || i === 28 || i === 42 || i === 56) {
-      const keyboardBreak = document.createElement('div'); // keyboard button
+      const keyboardBreak = document.createElement('div');                                        // keyboard button
       keyboardBreak.className = 'break';
       virtualKeyboardContainer.append(keyboardBreak);
       keyboardBreak.style.flexBasis = '100%';
@@ -70,7 +82,14 @@ function initKeyboard() {
 
     const keyboardBtn = document.createElement('div'); // keyboard button
     keyboardBtn.className = 'keyboard-btn';
-    keyboardBtn.innerText = keyboardArr[i];
+    if(keyboardCase === 'uppercase'){
+      if(keyboardArr[i].length === 1) {
+          keyboardBtn.innerText = keyboardArr[i].toUpperCase();
+      } else {keyboardBtn.innerText = keyboardArr[i];}
+
+    } else {
+      keyboardBtn.innerText = keyboardArr[i];
+    }
     virtualKeyboardContainer.append(keyboardBtn);
 
     keyboardBtn.style.boxSizing = 'border-box';
@@ -83,19 +102,20 @@ function initKeyboard() {
     keyboardBtn.style.color = 'white';
     keyboardBtn.style.fontSize = '20px';
     keyboardBtn.style.border = '2px solid black';
+    keyboardBtn.style.borderRadius = "5px"
     keyboardBtn.style.cursor = 'pointer';
     keyboardBtn.setAttribute('code', keyboardCodedArr[i]);
 
-    if (i === 54) { keyboardBtn.innerText = '▲'; } // стрелки клавиатуры
+    if (i === 54) { keyboardBtn.innerText = '▲'; }                                                        // стрелки клавиатуры
     if (i === 62) { keyboardBtn.innerText = '◀'; }
     if (i === 63) { keyboardBtn.innerText = '▼'; }
     if (i === 64) { keyboardBtn.innerText = '▶'; }
 
-    if (i === 56 || i === 61) { keyboardBtn.innerText = 'Ctrl'; } // кнопка CTRL
-    if (i === 57) { keyboardBtn.innerText = 'Win'; } // кнопка Win
-    if (i === 59) { keyboardBtn.style.width = '280px'; } // кнопка Space
+    if (i === 56 || i === 61) { keyboardBtn.innerText = 'Ctrl'; }                                         // кнопка CTRL
+    if (i === 57) { keyboardBtn.innerText = 'Win'; }                                                      // кнопка Win
+    if (i === 59) { keyboardBtn.style.width = '280px'; }                                                  // кнопка Space
 
-    keyboardBtn.addEventListener('mouseover', () => { // эффект от наведения мыши
+    keyboardBtn.addEventListener('mouseover', () => {                                     // эффект от наведения мыши
       keyboardBtn.style.backgroundColor = '#a1a3a2';
     });
     keyboardBtn.addEventListener('mouseout', () => {
@@ -106,19 +126,45 @@ function initKeyboard() {
 
 initKeyboard();
 
+function switchKeyboardCase() {
+  // console.log('caps')
+  virtualKeyboardContainer.innerHTML = '';
+
+  if(keyboardCase === 'lowercase') {
+    keyboardCase = 'uppercase';
+  } else {
+    keyboardCase = 'lowercase'
+  }
+
+  initKeyboard();
+}
+
+
+
+
 document.onkeydown = function (event) {
-  const targetBtn = document.querySelector(`.keyboard-btn[code = ${event.code}]`); // анимация при нажатии на физическую клавиатуру
+  const targetBtn = document.querySelector(`.keyboard-btn[code = ${event.code}]`);              // анимация при нажатии на физическую клавиатуру
   targetBtn.style.borderRadius = '45px';
   targetBtn.style.backgroundColor = '#2e2e2e';
   targetBtn.style.transition = '0.1s';
+  if(event.code === 'Tab') {
+    const str = textArea.value;
+    const cursorLocation = textArea.selectionStart;
+    textArea.value = str.slice(0, textArea.selectionStart) + '    ' + str.slice(textArea.selectionStart);      //физический Tab
+    textArea.selectionStart = textArea.selectionEnd = cursorLocation + 4;
+  }
+
+  if(event.code === 'CapsLock') {
+    switchKeyboardCase();
+  }
 };
 document.onkeyup = function (event) {
   const targetBtn = document.querySelector(`.keyboard-btn[code = ${event.code}]`);
-  targetBtn.style.borderRadius = '0px';
+  targetBtn.style.borderRadius = '5px';
   targetBtn.style.backgroundColor = '#4e4e4e';
 };
 
-document.onmousedown = function (event) {
+virtualKeyboardContainer.onmousedown = function (event) {
   if (event.target.className === 'keyboard-btn') {
     const targetBtn = document.querySelector(`.keyboard-btn[code = ${event.target.getAttribute('code')}]`); // анимация при нажатии мышью на виртуальную клавиатуру
     targetBtn.style.borderRadius = '45px';
@@ -126,15 +172,18 @@ document.onmousedown = function (event) {
     targetBtn.style.transition = '0.15s';
   }
 };
-document.onmouseup = function (event) {
+virtualKeyboardContainer.onmouseup = function (event) {
   if (event.target.className === 'keyboard-btn') {
     const targetBtn = document.querySelector(`.keyboard-btn[code = ${event.target.getAttribute('code')}]`);
-    targetBtn.style.borderRadius = '0';
+    targetBtn.style.borderRadius = '5px';
     targetBtn.style.backgroundColor = '#a1a3a2';
   }
 };
 
-virtualKeyboardContainer.addEventListener('click', (event) => { // ввод букв в textarea по нажатию мыщью по виртуальной клавиатуре
+
+
+
+virtualKeyboardContainer.addEventListener('click', (event) => {                                        // ввод букв в textarea по нажатию мыщью по виртуальной клавиатуре
   if (event.target.className === 'keyboard-btn' && event.target.getAttribute('code') !== 'Backspace'
                                                 && event.target.getAttribute('code') !== 'Tab'
                                                 && event.target.getAttribute('code') !== 'CapsLock'
@@ -162,14 +211,37 @@ virtualKeyboardContainer.addEventListener('click', (event) => { // ввод бу
 
 virtualKeyboardContainer.addEventListener('click', (event) => {
   if (event.target.className === 'keyboard-btn') {
+    const str = textArea.value;
+    const cursorLocation = textArea.selectionStart;
     switch (event.target.getAttribute('code')) {
-      case 'Backspace':
-        // console.log('Backspace');
-        const str = textArea.value;
-        // textArea.value = str.substring(0, str.length - 1);
-        // console.log(textArea.selectionStart);
-        // console.log(textArea.value);
-        // default
+      case 'Backspace':                                                                                                           //виртуальный Backspace                                                                                                         
+        textArea.value = str.slice(0, textArea.selectionStart - 1) + str.slice(textArea.selectionStart);
+        break;
+
+      case 'Delete':
+        textArea.value = str.slice(0, textArea.selectionStart) + str.slice(textArea.selectionStart + 1);      //виртуальный Delete
+        break;
+
+      case 'Tab':
+        textArea.value = str.slice(0, textArea.selectionStart) + '    ' + str.slice(textArea.selectionStart);      //виртуальный Tab
+        textArea.selectionStart = textArea.selectionEnd = cursorLocation + 4;
+        break;
+
+      case 'Space':
+        textArea.value = str.slice(0, textArea.selectionStart) + ' ' + str.slice(textArea.selectionStart);      //виртуальный Tab
+        textArea.selectionStart = textArea.selectionEnd = cursorLocation + 1;
+        break;
+
+      case 'Enter':
+        textArea.value = str.slice(0, textArea.selectionStart) + '\n' + str.slice(textArea.selectionStart);      //виртуальный Tab
+        textArea.selectionStart = textArea.selectionEnd = cursorLocation + 1;
+        break;
+
+      case 'CapsLock':                                                                                                                //виртуальный CapsLock  
+        switchKeyboardCase();
+        break;
+      default:
+        console.log('default');
     }
   }
 });

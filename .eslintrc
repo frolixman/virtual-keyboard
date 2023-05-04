@@ -9,7 +9,11 @@
     "no-console": "off",
     "no-plusplus": "off",
     "no-tabs": "off",
-    "linebreak-style": "off"
+    "linebreak-style": "off",
+    "no-multiple-empty-lines": "off",
+    "no-multi-spaces": "off",
+    "prefer-template": "off",
+    "max-len": ["warning", 150]
 
   }
 }
