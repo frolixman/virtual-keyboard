@@ -127,7 +127,6 @@ function initKeyboard() {
 initKeyboard();
 
 function switchKeyboardCase() {
-  // console.log('caps')
   virtualKeyboardContainer.innerHTML = '';
 
   if(keyboardCase === 'lowercase') {
@@ -145,6 +144,8 @@ function switchKeyboardCase() {
 document.onkeydown = function (event) {
   const targetBtn = document.querySelector(`.keyboard-btn[code = ${event.code}]`);              // анимация при нажатии на физическую клавиатуру
   targetBtn.style.borderRadius = '45px';
+  console.log('testCaps')
+  console.log(targetBtn)
   targetBtn.style.backgroundColor = '#2e2e2e';
   targetBtn.style.transition = '0.1s';
   if(event.code === 'Tab') {
@@ -153,9 +154,9 @@ document.onkeydown = function (event) {
     textArea.value = str.slice(0, textArea.selectionStart) + '    ' + str.slice(textArea.selectionStart);      //физический Tab
     textArea.selectionStart = textArea.selectionEnd = cursorLocation + 4;
   }
-
   if(event.code === 'CapsLock') {
-    switchKeyboardCase();
+    setTimeout(switchKeyboardCase, 100)
+    // switchKeyboardCase();
   }
 };
 document.onkeyup = function (event) {
